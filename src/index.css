@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Merriweather:wght@300;400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -6,44 +6,44 @@
 
 @layer base {
   :root {
-    --background: 222 47% 11%;
-    --foreground: 43 100% 95%;
+    --background: 230 45% 8%;
+    --foreground: 180 100% 85%;
 
-    --card: 225 25% 15%;
-    --card-foreground: 43 100% 95%;
+    --card: 230 40% 12%;
+    --card-foreground: 180 100% 85%;
 
-    --popover: 225 25% 15%;
-    --popover-foreground: 43 100% 95%;
+    --popover: 230 40% 12%;
+    --popover-foreground: 180 100% 85%;
 
-    --primary: 263 70% 64%;
-    --primary-foreground: 43 100% 95%;
+    --primary: 185 100% 50%;
+    --primary-foreground: 230 45% 8%;
 
-    --secondary: 43 96% 56%;
-    --secondary-foreground: 222 47% 11%;
+    --secondary: 45 100% 50%;
+    --secondary-foreground: 230 45% 8%;
 
-    --muted: 225 15% 25%;
-    --muted-foreground: 43 50% 70%;
+    --muted: 230 30% 20%;
+    --muted-foreground: 180 50% 60%;
 
-    --accent: 0 72% 51%;
-    --accent-foreground: 43 100% 95%;
+    --accent: 120 100% 50%;
+    --accent-foreground: 230 45% 8%;
 
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 43 100% 95%;
+    --destructive: 10 100% 55%;
+    --destructive-foreground: 180 100% 85%;
 
-    --border: 225 25% 25%;
-    --input: 225 25% 25%;
-    --ring: 263 70% 64%;
+    --border: 230 30% 25%;
+    --input: 230 30% 25%;
+    --ring: 185 100% 50%;
 
-    --radius: 0.5rem;
+    --radius: 0.25rem;
 
-    --sidebar-background: 222 47% 11%;
-    --sidebar-foreground: 43 100% 95%;
-    --sidebar-primary: 263 70% 64%;
-    --sidebar-primary-foreground: 43 100% 95%;
-    --sidebar-accent: 225 25% 15%;
-    --sidebar-accent-foreground: 43 100% 95%;
-    --sidebar-border: 225 25% 25%;
-    --sidebar-ring: 263 70% 64%;
+    --sidebar-background: 230 45% 8%;
+    --sidebar-foreground: 180 100% 85%;
+    --sidebar-primary: 185 100% 50%;
+    --sidebar-primary-foreground: 230 45% 8%;
+    --sidebar-accent: 230 40% 12%;
+    --sidebar-accent-foreground: 180 100% 85%;
+    --sidebar-border: 230 30% 25%;
+    --sidebar-ring: 185 100% 50%;
   }
 }
 
@@ -54,7 +54,8 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: "Merriweather", serif;
+    font-family: "Roboto Mono", monospace;
+    image-rendering: pixelated;
   }
 
   h1,
@@ -63,26 +64,48 @@
   h4,
   h5,
   h6 {
-    font-family: "Cinzel", serif;
+    font-family: "Roboto Mono", monospace;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
   }
 }
 
 @layer utilities {
   .text-glow {
     text-shadow:
-      0 0 20px rgba(155, 135, 245, 0.8),
-      0 0 40px rgba(155, 135, 245, 0.4);
+      0 0 20px rgba(0, 217, 255, 0.9),
+      0 0 40px rgba(0, 217, 255, 0.5);
   }
 
   .magic-glow {
     box-shadow:
-      0 0 30px rgba(155, 135, 245, 0.5),
-      0 0 60px rgba(155, 135, 245, 0.3);
+      0 0 30px rgba(0, 217, 255, 0.6),
+      0 0 60px rgba(0, 217, 255, 0.3),
+      inset 0 0 20px rgba(0, 217, 255, 0.1);
   }
 
   .gold-glow {
     text-shadow:
-      0 0 20px rgba(245, 158, 11, 0.8),
-      0 0 40px rgba(245, 158, 11, 0.4);
+      0 0 20px rgba(255, 215, 0, 0.9),
+      0 0 40px rgba(255, 215, 0, 0.5);
+  }
+
+  .fire-glow {
+    text-shadow:
+      0 0 15px rgba(255, 69, 0, 0.9),
+      0 0 30px rgba(255, 69, 0, 0.6);
+  }
+
+  .toxic-glow {
+    text-shadow:
+      0 0 15px rgba(57, 255, 20, 0.9),
+      0 0 30px rgba(57, 255, 20, 0.6);
+  }
+
+  .pixel-border {
+    border-style: solid;
+    border-width: 2px;
+    image-rendering: pixelated;
   }
 }

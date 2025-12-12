@@ -5,213 +5,345 @@ import { Badge } from '@/components/ui/badge';
 import Icon from '@/components/ui/icon';
 
 const Index = () => {
-  const [activeSection, setActiveSection] = useState('characters');
-
-  const characters = [
+  const spells = [
     {
-      name: 'Shadowheart',
-      class: 'Клирик',
-      race: 'Полуэльф',
-      description: 'Таинственная последовательница Шар, богини тьмы и утраты. Хранит древние секреты и несёт священный артефакт.',
-      abilities: ['Божественная магия', 'Исцеление', 'Тёмные ритуалы'],
-      alignment: 'Законно-нейтральная'
+      name: 'Светящийся заряд',
+      type: 'Снаряд',
+      damage: '10',
+      mana: 5,
+      description: 'Базовый магический снаряд, испускающий яркий свет',
+      modifiers: ['Урон магией', 'Освещение'],
+      color: 'primary'
     },
     {
-      name: 'Astarion',
-      class: 'Плут',
-      race: 'Эльф-вампир',
-      description: 'Харизматичный вампир, порабощённый своим создателем веками. Ищет свободу и месть.',
-      abilities: ['Скрытность', 'Укус вампира', 'Обаяние'],
-      alignment: 'Хаотично-нейтральный'
+      name: 'Огненный шар',
+      type: 'Взрывной',
+      damage: '35',
+      mana: 20,
+      description: 'Взрывной снаряд, поджигающий окружение',
+      modifiers: ['Взрыв', 'Огонь', 'Поджог'],
+      color: 'destructive'
     },
     {
-      name: 'Gale',
-      class: 'Волшебник',
-      race: 'Человек',
-      description: 'Талантливый маг из Вотердипа, проклятый магической бомбой в груди. Бывший возлюбленный богини магии.',
-      abilities: ['Магия плетения', 'Порталы', 'Взрывная магия'],
-      alignment: 'Нейтрально-добрый'
+      name: 'Чёрная дыра',
+      type: 'Гравитация',
+      damage: '250',
+      mana: 150,
+      description: 'Создаёт гравитационную воронку, затягивающую всё вокруг',
+      modifiers: ['Гравитация', 'Массовый урон', 'Редкость'],
+      color: 'accent'
     },
     {
-      name: 'Lae\'zel',
-      class: 'Воин',
-      race: 'Гитьянки',
-      description: 'Свирепая воительница гитьянки, обученная сражаться с иллитидами. Фанатично предана своей королеве.',
-      abilities: ['Мастер клинка', 'Псионика', 'Боевая тактика'],
-      alignment: 'Законно-злая'
+      name: 'Двойное касание',
+      type: 'Модификатор',
+      damage: '—',
+      mana: 25,
+      description: 'Следующее заклинание срабатывает дважды',
+      modifiers: ['Множитель', 'Синергия'],
+      color: 'secondary'
     },
     {
-      name: 'Wyll',
-      class: 'Колдун',
-      race: 'Человек',
-      description: 'Благородный Клинок Границ, заключивший пакт с дьяволицей. Защитник невинных, проклятый рогами.',
-      abilities: ['Тёмная магия', 'Эльдрическая энергия', 'Фехтование'],
-      alignment: 'Законно-добрый'
+      name: 'Луч смерти',
+      type: 'Луч',
+      damage: '15/tick',
+      mana: 40,
+      description: 'Непрерывный луч разрушающей энергии',
+      modifiers: ['Луч', 'Высокий DPS', 'Непрерывный'],
+      color: 'primary'
     },
     {
-      name: 'Karlach',
-      class: 'Варвар',
-      race: 'Тифлинг',
-      description: 'Воительница с инфернальным двигателем вместо сердца. Бывший солдат Аверна, ищущая искупления.',
-      abilities: ['Ярость', 'Инфернальная мощь', 'Боевой дух'],
-      alignment: 'Хаотично-добрая'
+      name: 'Полимерфин',
+      type: 'Субстанция',
+      damage: '0',
+      mana: 60,
+      description: 'Превращает врагов в овец на короткое время',
+      modifiers: ['Контроль', 'Трансформация'],
+      color: 'accent'
     }
   ];
 
-  const locations = [
+  const alchemy = [
     {
-      name: 'Побережье Меча',
-      region: 'Фаэрун',
-      description: 'Место крушения наутилоида. Здесь начинается ваше приключение среди обломков и древних руин.',
-      dangers: ['Выжившие иллитиды', 'Гоблины', 'Зомби'],
-      secrets: 'Древний храм Джергала скрыт под руинами'
+      substance1: 'Вода',
+      substance2: 'Лава',
+      result: 'Базальт + Пар',
+      danger: 'low',
+      practical: 'Создание платформ, охлаждение'
     },
     {
-      name: 'Роща Друидов',
-      region: 'Изумрудная Роща',
-      description: 'Священное место друидов, защищающих портал в Подземье. Конфликт между друидами и беженцами-тифлингами.',
-      dangers: ['Враждебные друиды', 'Гоблины', 'Магические ловушки'],
-      secrets: 'Секретная библиотека с забытыми ритуалами'
+      substance1: 'Кислота',
+      substance2: 'Плоть',
+      result: 'Токсичный газ',
+      danger: 'high',
+      practical: 'Опасно! Избегать комбинации'
     },
     {
-      name: 'Лагерь Гоблинов',
-      region: 'Разрушенная Крепость',
-      description: 'Древняя крепость Селуне, захваченная армией Абсолюта. Логово трёх верных Абсолюту.',
-      dangers: ['Армия гоблинов', 'Дроу-жрица', 'Огры'],
-      secrets: 'Подземелье с пленниками и артефактами'
+      substance1: 'Полимерфин',
+      substance2: 'Любая жидкость',
+      result: 'Трансформация в жидкость',
+      danger: 'critical',
+      practical: 'Полёт сквозь стены, смертельно опасно'
     },
     {
-      name: 'Подземье',
-      region: 'Глубины под Фаэруном',
-      description: 'Огромная сеть пещер и туннелей, населённая дроу, дуэргарами и грибными существами.',
-      dangers: ['Дроу Мензоберранзана', 'Крюкастые ужасы', 'Взрывоопасные грибы'],
-      secrets: 'Древний город Гримхолл и пути в Проклятые Земли'
+      substance1: 'Масло',
+      substance2: 'Огонь',
+      result: 'Усиленное горение',
+      danger: 'medium',
+      practical: 'Урон врагам, очистка местности'
     },
     {
-      name: 'Проклятые Земли',
-      region: 'Тень над Фаэруном',
-      description: 'Земли, проклятые Шар. Вечная тьма поглотила эти места, убивая всё живое.',
-      dangers: ['Тени-нежить', 'Культ Абсолюта', 'Магическая тьма'],
-      secrets: 'Башня Лунного Восхода и тюрьма бога'
+      substance1: 'Ускорин',
+      substance2: 'Игрок',
+      result: 'Увеличение скорости',
+      danger: 'low',
+      practical: 'Быстрое перемещение, уклонение'
     },
     {
-      name: 'Врата Балдура',
-      region: 'Город Врат',
-      description: 'Величайший город Побережья Меча. Коррупция и заговоры плетутся в тени великолепных дворцов.',
-      dangers: ['Культ Бхаала', 'Стальная Стража', 'Гильдия воров'],
-      secrets: 'Подземная крепость Бхаала и планы мертвой тройки'
+      substance1: 'Амброзия',
+      substance2: 'Любое проклятие',
+      result: 'Снятие проклятий',
+      danger: 'low',
+      practical: 'Лечение, очищение'
     }
   ];
+
+  const perks = [
+    {
+      name: 'Невидимость',
+      rarity: 'Редкий',
+      effect: 'Враги не видят вас на расстоянии',
+      synergy: 'Критический урон',
+      icon: 'Eye'
+    },
+    {
+      name: 'Взрывная неуязвимость',
+      rarity: 'Редкий',
+      effect: 'Иммунитет к взрывному урону',
+      synergy: 'Огненный шар, Чёрная дыра',
+      icon: 'Shield'
+    },
+    {
+      name: 'Всевидящее око',
+      rarity: 'Эпический',
+      effect: 'Видите сквозь стены и в темноте',
+      synergy: 'Разведка, поиск секретов',
+      icon: 'Eye'
+    },
+    {
+      name: 'Бесконечные заклинания',
+      rarity: 'Эпический',
+      effect: 'Заклинания не расходуют ману',
+      synergy: 'Все комбо-заклинания',
+      icon: 'Infinity'
+    },
+    {
+      name: 'Кровавая магия',
+      rarity: 'Обычный',
+      effect: 'Заклинания тратят здоровье вместо маны',
+      synergy: 'Регенерация здоровья',
+      icon: 'Heart'
+    },
+    {
+      name: 'Стазис',
+      rarity: 'Редкий',
+      effect: 'Замораживаете время при низком здоровье',
+      synergy: 'Телепортация, Исцеление',
+      icon: 'Clock'
+    }
+  ];
+
+  const getRarityColor = (rarity: string) => {
+    switch (rarity) {
+      case 'Эпический': return 'bg-accent/20 border-accent/50 text-accent';
+      case 'Редкий': return 'bg-primary/20 border-primary/50 text-primary';
+      default: return 'bg-muted/20 border-muted-foreground/50 text-muted-foreground';
+    }
+  };
+
+  const getDangerColor = (danger: string) => {
+    switch (danger) {
+      case 'critical': return 'destructive';
+      case 'high': return 'destructive';
+      case 'medium': return 'default';
+      default: return 'secondary';
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-background to-background" />
+      <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background" />
       
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(20)].map((_, i) => (
+        {[...Array(30)].map((_, i) => (
           <div
             key={i}
-            className="absolute w-1 h-1 bg-primary/30 rounded-full animate-float"
+            className="absolute bg-primary rounded-full animate-drip"
+            style={{
+              width: `${2 + Math.random() * 3}px`,
+              height: `${2 + Math.random() * 3}px`,
+              left: `${Math.random() * 100}%`,
+              top: `-${Math.random() * 50}px`,
+              animationDelay: `${Math.random() * 5}s`,
+              animationDuration: `${2 + Math.random() * 3}s`,
+              opacity: 0.6
+            }}
+          />
+        ))}
+        
+        {[...Array(15)].map((_, i) => (
+          <div
+            key={`spark-${i}`}
+            className="absolute w-2 h-2 bg-secondary/80 animate-spark"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${3 + Math.random() * 2}s`
+              animationDelay: `${Math.random() * 2}s`,
+              animationDuration: `${1 + Math.random()}s`
             }}
           />
         ))}
       </div>
 
       <div className="relative z-10">
-        <div className="container mx-auto px-4 py-16">
-          <div className="text-center mb-16 animate-fade-in">
-            <h1 className="text-6xl md:text-8xl font-bold mb-6 text-glow">
-              BALDUR'S GATE III
+        <div className="container mx-auto px-4 py-12">
+          <div className="text-center mb-12 animate-fade-in">
+            <h1 className="text-5xl md:text-7xl font-bold mb-4 text-glow tracking-wider">
+              NOITA
             </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground mb-4">
-              Энциклопедия Забытых Королевств
+            <p className="text-lg md:text-xl text-muted-foreground mb-6 uppercase tracking-widest">
+              База знаний алхимика
             </p>
-            <div className="flex justify-center gap-4 flex-wrap">
-              <Badge variant="outline" className="text-sm px-4 py-2 border-primary/50 bg-primary/10">
-                <Icon name="Sword" className="mr-2 h-4 w-4" />
-                Приключения
-              </Badge>
-              <Badge variant="outline" className="text-sm px-4 py-2 border-secondary/50 bg-secondary/10">
-                <Icon name="Sparkles" className="mr-2 h-4 w-4" />
+            <div className="flex justify-center gap-3 flex-wrap">
+              <Badge variant="outline" className="px-4 py-2 border-primary/50 bg-primary/10 pixel-border">
+                <Icon name="Wand2" className="mr-2 h-4 w-4" />
                 Магия
               </Badge>
-              <Badge variant="outline" className="text-sm px-4 py-2 border-accent/50 bg-accent/10">
-                <Icon name="Skull" className="mr-2 h-4 w-4" />
-                Опасности
+              <Badge variant="outline" className="px-4 py-2 border-secondary/50 bg-secondary/10 pixel-border">
+                <Icon name="Flask" className="mr-2 h-4 w-4" />
+                Алхимия
+              </Badge>
+              <Badge variant="outline" className="px-4 py-2 border-accent/50 bg-accent/10 pixel-border">
+                <Icon name="Zap" className="mr-2 h-4 w-4" />
+                Перки
               </Badge>
             </div>
           </div>
 
-          <Tabs defaultValue="characters" className="w-full" onValueChange={setActiveSection}>
-            <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-2 mb-12 h-auto p-2 bg-card/50 backdrop-blur-sm">
+          <Tabs defaultValue="spells" className="w-full">
+            <TabsList className="grid w-full max-w-3xl mx-auto grid-cols-3 mb-10 h-auto p-2 bg-card/50 backdrop-blur-sm pixel-border">
               <TabsTrigger 
-                value="characters" 
-                className="text-lg py-4 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all"
+                value="spells" 
+                className="py-3 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground uppercase text-xs tracking-wider"
               >
-                <Icon name="Users" className="mr-2 h-5 w-5" />
-                Персонажи
+                <Icon name="Wand2" className="mr-2 h-4 w-4" />
+                Заклинания
               </TabsTrigger>
               <TabsTrigger 
-                value="locations" 
-                className="text-lg py-4 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all"
+                value="alchemy" 
+                className="py-3 data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground uppercase text-xs tracking-wider"
               >
-                <Icon name="Map" className="mr-2 h-5 w-5" />
-                Локации
+                <Icon name="Flask" className="mr-2 h-4 w-4" />
+                Алхимия
+              </TabsTrigger>
+              <TabsTrigger 
+                value="perks" 
+                className="py-3 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground uppercase text-xs tracking-wider"
+              >
+                <Icon name="Sparkles" className="mr-2 h-4 w-4" />
+                Перки
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="characters" className="space-y-6 animate-fade-in">
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {characters.map((character, index) => (
+            <TabsContent value="spells" className="space-y-6 animate-fade-in">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {spells.map((spell, index) => (
                   <Card 
                     key={index} 
-                    className="group hover:scale-[1.02] transition-all duration-300 border-border/50 bg-card/80 backdrop-blur-sm hover:border-primary/50 hover:shadow-[0_0_30px_rgba(155,135,245,0.3)]"
-                    style={{ animationDelay: `${index * 0.1}s` }}
+                    className="group hover:scale-[1.03] transition-all duration-200 border-border/50 bg-card/70 backdrop-blur-sm hover:border-primary/50 magic-glow"
+                    style={{ animationDelay: `${index * 0.05}s` }}
                   >
-                    <CardHeader>
+                    <CardHeader className="pb-3">
                       <div className="flex items-start justify-between mb-2">
-                        <CardTitle className="text-2xl group-hover:text-primary transition-colors">
-                          {character.name}
+                        <CardTitle className="text-xl group-hover:text-primary transition-colors uppercase tracking-wide">
+                          {spell.name}
                         </CardTitle>
-                        <Icon name="Shield" className="h-6 w-6 text-primary opacity-50 group-hover:opacity-100 transition-opacity" />
+                        <Icon name="Wand2" className="h-5 w-5 text-primary" />
                       </div>
                       <div className="flex gap-2 flex-wrap">
-                        <Badge variant="secondary" className="text-xs">
-                          {character.class}
+                        <Badge variant="outline" className="text-xs border-primary/30 uppercase">
+                          {spell.type}
                         </Badge>
-                        <Badge variant="outline" className="text-xs border-primary/30">
-                          {character.race}
+                        <Badge variant="secondary" className="text-xs">
+                          {spell.damage} урон
+                        </Badge>
+                        <Badge className="text-xs bg-primary/20">
+                          {spell.mana} маны
                         </Badge>
                       </div>
-                      <CardDescription className="text-sm mt-2 text-muted-foreground">
-                        {character.description}
+                      <CardDescription className="text-xs mt-2">
+                        {spell.description}
                       </CardDescription>
                     </CardHeader>
-                    <CardContent>
-                      <div className="space-y-3">
-                        <div>
-                          <p className="text-sm font-semibold text-secondary mb-2 flex items-center">
-                            <Icon name="Zap" className="mr-2 h-4 w-4" />
-                            Способности:
-                          </p>
-                          <div className="flex flex-wrap gap-2">
-                            {character.abilities.map((ability, i) => (
-                              <Badge key={i} variant="outline" className="text-xs bg-primary/5">
-                                {ability}
-                              </Badge>
-                            ))}
+                    <CardContent className="pt-0">
+                      <div className="flex flex-wrap gap-1">
+                        {spell.modifiers.map((mod, i) => (
+                          <Badge key={i} variant="outline" className="text-xs bg-muted/20 uppercase">
+                            {mod}
+                          </Badge>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="alchemy" className="space-y-6 animate-fade-in">
+              <div className="grid gap-4">
+                {alchemy.map((reaction, index) => (
+                  <Card 
+                    key={index} 
+                    className="group hover:scale-[1.01] transition-all duration-200 border-border/50 bg-card/70 backdrop-blur-sm"
+                    style={{ animationDelay: `${index * 0.05}s` }}
+                  >
+                    <CardContent className="p-6">
+                      <div className="grid md:grid-cols-12 gap-4 items-center">
+                        <div className="md:col-span-3">
+                          <div className="flex items-center gap-2">
+                            <Icon name="Droplet" className="h-4 w-4 text-primary" />
+                            <span className="font-bold text-sm uppercase">{reaction.substance1}</span>
                           </div>
                         </div>
-                        <div className="pt-2 border-t border-border/30">
-                          <p className="text-xs text-muted-foreground flex items-center">
-                            <Icon name="Scale" className="mr-2 h-3 w-3" />
-                            {character.alignment}
-                          </p>
+                        
+                        <div className="md:col-span-1 flex justify-center">
+                          <Icon name="Plus" className="h-5 w-5 text-muted-foreground" />
+                        </div>
+                        
+                        <div className="md:col-span-3">
+                          <div className="flex items-center gap-2">
+                            <Icon name="Droplet" className="h-4 w-4 text-secondary" />
+                            <span className="font-bold text-sm uppercase">{reaction.substance2}</span>
+                          </div>
+                        </div>
+                        
+                        <div className="md:col-span-1 flex justify-center">
+                          <Icon name="ArrowRight" className="h-5 w-5 text-accent" />
+                        </div>
+                        
+                        <div className="md:col-span-4">
+                          <div className="flex flex-col gap-2">
+                            <div className="flex items-center gap-2">
+                              <Icon name="Zap" className="h-4 w-4 text-accent" />
+                              <span className="font-bold text-sm uppercase text-accent">{reaction.result}</span>
+                              <Badge variant={getDangerColor(reaction.danger)} className="text-xs ml-auto uppercase">
+                                {reaction.danger === 'critical' && '⚠ Критично'}
+                                {reaction.danger === 'high' && 'Опасно'}
+                                {reaction.danger === 'medium' && 'Средне'}
+                                {reaction.danger === 'low' && 'Безопасно'}
+                              </Badge>
+                            </div>
+                            <p className="text-xs text-muted-foreground">{reaction.practical}</p>
+                          </div>
                         </div>
                       </div>
                     </CardContent>
@@ -220,54 +352,34 @@ const Index = () => {
               </div>
             </TabsContent>
 
-            <TabsContent value="locations" className="space-y-6 animate-fade-in">
-              <div className="grid md:grid-cols-2 gap-6">
-                {locations.map((location, index) => (
+            <TabsContent value="perks" className="space-y-6 animate-fade-in">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {perks.map((perk, index) => (
                   <Card 
                     key={index} 
-                    className="group hover:scale-[1.02] transition-all duration-300 border-border/50 bg-card/80 backdrop-blur-sm hover:border-secondary/50 hover:shadow-[0_0_30px_rgba(245,158,11,0.2)]"
-                    style={{ animationDelay: `${index * 0.1}s` }}
+                    className="group hover:scale-[1.03] transition-all duration-200 border-border/50 bg-card/70 backdrop-blur-sm hover:shadow-[0_0_25px_rgba(0,217,255,0.3)]"
+                    style={{ animationDelay: `${index * 0.05}s` }}
                   >
                     <CardHeader>
-                      <div className="flex items-start justify-between mb-2">
-                        <CardTitle className="text-2xl group-hover:text-secondary transition-colors gold-glow">
-                          {location.name}
+                      <div className="flex items-start justify-between mb-3">
+                        <CardTitle className="text-xl group-hover:text-accent transition-colors uppercase tracking-wide">
+                          {perk.name}
                         </CardTitle>
-                        <Icon name="MapPin" className="h-6 w-6 text-secondary opacity-50 group-hover:opacity-100 transition-opacity" />
+                        <Icon name={perk.icon as any} className="h-6 w-6 text-accent" />
                       </div>
-                      <Badge variant="secondary" className="w-fit text-xs mb-3">
-                        {location.region}
+                      <Badge className={`w-fit text-xs mb-3 uppercase ${getRarityColor(perk.rarity)}`}>
+                        {perk.rarity}
                       </Badge>
-                      <CardDescription className="text-sm text-muted-foreground">
-                        {location.description}
+                      <CardDescription className="text-sm mb-3">
+                        {perk.effect}
                       </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-4">
-                        <div>
-                          <p className="text-sm font-semibold text-accent mb-2 flex items-center">
-                            <Icon name="Skull" className="mr-2 h-4 w-4" />
-                            Опасности:
-                          </p>
-                          <div className="flex flex-wrap gap-2">
-                            {location.dangers.map((danger, i) => (
-                              <Badge key={i} variant="destructive" className="text-xs bg-accent/20 hover:bg-accent/30">
-                                {danger}
-                              </Badge>
-                            ))}
-                          </div>
-                        </div>
-                        <div className="pt-3 border-t border-border/30">
-                          <p className="text-sm font-semibold text-primary mb-1 flex items-center">
-                            <Icon name="Eye" className="mr-2 h-4 w-4" />
-                            Секреты:
-                          </p>
-                          <p className="text-xs text-muted-foreground italic">
-                            {location.secrets}
-                          </p>
-                        </div>
+                      <div className="pt-3 border-t border-border/30">
+                        <p className="text-xs text-primary flex items-start gap-2">
+                          <Icon name="Link" className="h-3 w-3 mt-0.5 flex-shrink-0" />
+                          <span className="uppercase">Синергия: {perk.synergy}</span>
+                        </p>
                       </div>
-                    </CardContent>
+                    </CardHeader>
                   </Card>
                 ))}
               </div>
@@ -276,11 +388,11 @@ const Index = () => {
         </div>
       </div>
 
-      <div className="fixed bottom-8 right-8 z-20">
-        <Card className="bg-card/90 backdrop-blur-sm border-primary/30 magic-glow animate-pulse-glow">
-          <CardContent className="p-4 flex items-center gap-3">
-            <Icon name="Sparkles" className="h-5 w-5 text-primary" />
-            <p className="text-sm font-medium">Магия Плетения активна</p>
+      <div className="fixed bottom-6 right-6 z-20 animate-bounce-pixel">
+        <Card className="bg-card/95 backdrop-blur-sm border-primary/50 magic-glow pixel-border">
+          <CardContent className="p-3 flex items-center gap-2">
+            <Icon name="Wand2" className="h-4 w-4 text-primary animate-pulse-glow" />
+            <p className="text-xs font-bold uppercase tracking-wider">Система активна</p>
           </CardContent>
         </Card>
       </div>
